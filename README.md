@@ -17,12 +17,15 @@ Continuous — 10 residues/line with positions
 Compact Grid — 20 residues per row, spaced
 FASTA-style — 60 chars/line with auto header
 Multi-column Table — 4 columns of Pos/Res
+
 🚀 <b>Quick Start</b>
 
 Download/clone this repo
 Open index.html in a modern browser
 Paste sequence → select format → click “Generate DOCX File”
+
 🛠️ <b>Tech Stack</b>
+
 HTML CSS JavaScript docx@7.8.0
 
 ⚙️ <b>Customization</b>
@@ -33,6 +36,7 @@ Filename: tweak link.download in generateDocx()
 Fonts/sizes: adjust TextRun({ font, size })
 
 🔒 <b>Privacy</b>
+
 100% client-side; data never leaves your browser.
 
 🐛 <b>Troubleshooting</b>
@@ -44,7 +48,10 @@ CDN blocked/offline → download docx.min.js locally and update the script tag
 MIT — see LICENSE.
 
 🙏 <b>Acknowledgements</b>
+
 DOCX generation powered by the excellent <a href="https://github.com/dolanmiu/docx">docx</a> library.
+
+## 🔗 Access Here - https://protein-sequence.netlify.app
 
 📸 <b>Preview</b>
 

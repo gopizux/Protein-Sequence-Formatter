@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protein Sequence Formatter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.8.0/docx.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .sequence-input {
+            margin-bottom: 25px;
+        }
+        .sequence-input h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        #proteinSequence {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        .sequence-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .residue-count {
+            font-weight: bold;
+            color: #667eea;
+        }
+        .validation-message {
+            color: #e74c3c;
+            font-size: 0.9em;
+        }
+        .format-options {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .format-options h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .option-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 8px 15px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s;
+        }
+        label:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        input[type="radio"]:checked + span {
+            color: #667eea;
+            font-weight: 600;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 25px auto;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        button:active {
+            transform: translateY(-1px);
+        }
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .preview {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .preview h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        #sequencePreview {
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .info {
+            background: #e7f5ff;
+            border-left: 4px solid #339af0;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        .info p {
+            margin: 5px 0;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧬 Protein Sequence Formatter</h1>
+        <div class="subtitle">Format your protein sequence and generate a compact DOCX file</div>
+        
+        <div class="info">
+            <p><strong>Instructions:</strong> Paste your protein sequence in the text area below. Only standard amino acid letters (A-Z) are allowed.</p>
+            <p><strong>Supported formats:</strong> Continuous (10 residues/line), Compact Grid (20×rows), FASTA-style (60 char/line), Multi-column Table</p>
+        </div>
+
+        <div class="sequence-input">
+            <h3>📝 Protein Sequence</h3>
+            <textarea id="proteinSequence" placeholder="Enter your protein sequence (e.g., MLEALKL...)" oninput="validateSequence()"></textarea>
+            <div class="sequence-info">
+                <div class="residue-count">Residues: <span id="residueCount">0</span></div>
+                <div class="validation-message" id="validationMessage"></div>
+            </div>
+        </div>
+
+        <div class="format-options">
+            <h3>📐 Choose Format</h3>
+            <div class="option-group">
+                <label>
+                    <input type="radio" name="format" value="continuous" checked>
+                    <span>Continuous (10 residues/line)</span>
+                </label>
+                <label>
+                    <input type="radio" name="format" value="grid">
+                    <span>Compact Grid (20×rows)</span>
+                </label>
+                <label>
+                    <input type="radio" name="format" value="fasta">
+                    <span>FASTA-style (60 char/line)</span>
+                </label>
+                <label>
+                    <input type="radio" name="format" value="table">
+                    <span>Multi-column Table</span>
+                </label>
+            </div>
+        </div>
+
+        <button id="generateButton" onclick="generateDocx()" disabled>📄 Generate DOCX File</button>
+
+        <div class="preview">
+            <h3>Preview</h3>
+            <div id="sequencePreview">Enter a protein sequence to see preview</div>
+        </div>
+    </div>
+
+    <script>
+        // Function to validate the protein sequence input
+        function validateSequence() {
+            const sequenceInput = document.getElementById('proteinSequence').value.toUpperCase();
+            const residueCountElement = document.getElementById('residueCount');
+            const validationMessageElement = document.getElementById('validationMessage');
+            const generateButton = document.getElementById('generateButton');
+            
+            // Remove any non-letter characters (except for line breaks and spaces)
+            const cleanedSequence = sequenceInput.replace(/[^A-Z\n\r\s]/g, '');
+            
+            // Check if cleaned sequence differs from input
+            if (cleanedSequence !== sequenceInput) {
+                document.getElementById('proteinSequence').value = cleanedSequence;
+                validationMessageElement.textContent = "Non-amino acid characters removed";
+            } else {
+                validationMessageElement.textContent = "";
+            }
+            
+            // Count residues (only letters, no whitespace)
+            const residueCount = cleanedSequence.replace(/[\n\r\s]/g, '').length;
+            residueCountElement.textContent = residueCount;
+            
+            // Enable/disable generate button based on valid input
+            if (residueCount > 0) {
+                generateButton.disabled = false;
+                updatePreview();
+            } else {
+                generateButton.disabled = true;
+                document.getElementById('sequencePreview').textContent = "Enter a protein sequence to see preview";
+            }
+        }
+        
+        // Function to get the current sequence
+        function getSequence() {
+            const sequenceInput = document.getElementById('proteinSequence').value.toUpperCase();
+            // Remove all non-letter characters (including whitespace)
+            return sequenceInput.replace(/[^A-Z]/g, '');
+        }
+
+        // Function to format sequence based on selected option
+        function formatSequence(format, sequence) {
+            let formatted = "";
+            
+            switch(format) {
+                case 'continuous':
+                    // 10 residues per line with position numbers
+                    for (let i = 0; i < sequence.length; i += 10) {
+                        const chunk = sequence.substring(i, Math.min(i + 10, sequence.length));
+                        formatted += `${String(i + 1).padStart(4, ' ')}: ${chunk.split('').join(' ')}\n`;
+                    }
+                    break;
+                    
+                case 'grid':
+                    // Compact grid format (20 residues per row)
+                    for (let i = 0; i < sequence.length; i += 20) {
+                        const chunk = sequence.substring(i, Math.min(i + 20, sequence.length));
+                        formatted += chunk.split('').join(' ') + '\n';
+                    }
+                    break;
+                    
+                case 'fasta':
+                    // FASTA-style format (60 characters per line)
+                    formatted = `>Protein Sequence (${sequence.length} residues)\n`;
+                    for (let i = 0; i < sequence.length; i += 60) {
+                        formatted += sequence.substring(i, Math.min(i + 60, sequence.length)) + '\n';
+                    }
+                    break;
+                    
+                case 'table':
+                    // Multi-column table format preview
+                    const cols = 4;
+                    const rowCount = Math.ceil(sequence.length / cols);
+                    
+                    formatted = "Pos  Res | Pos  Res | Pos  Res | Pos  Res\n";
+                    formatted += "----------------------------------------\n";
+                    
+                    for (let row = 0; row < rowCount; row++) {
+                        let line = "";
+                        for (let col = 0; col < cols; col++) {
+                            const index = row + col * rowCount;
+                            if (index < sequence.length) {
+                                const pos = String(index + 1).padStart(3, ' ');
+                                const res = sequence[index];
+                                line += `${pos}   ${res}  `;
+                                if (col < cols - 1) line += "| ";
+                            }
+                        }
+                        formatted += line + '\n';
+                    }
+                    break;
+            }
+            
+            return formatted;
+        }
+
+        // Update preview when format changes or sequence updates
+        document.querySelectorAll('input[name="format"]').forEach(radio => {
+            radio.addEventListener('change', updatePreview);
+        });
+
+        function updatePreview() {
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const sequence = getSequence();
+            
+            if (sequence.length > 0) {
+                document.getElementById('sequencePreview').textContent = formatSequence(format, sequence);
+            }
+        }
+
+        // Generate DOCX file
+        async function generateDocx() {
+            const format = document.querySelector('input[name="format"]:checked').value;
+            const sequence = getSequence();
+            const { Document, Packer, Paragraph, TextRun, Table, TableCell, TableRow, WidthType, AlignmentType, HeadingLevel } = docx;
+
+            let doc;
+            
+            if (format === 'table') {
+                // Create multi-column table format
+                const cols = 4;
+                const rowCount = Math.ceil(sequence.length / cols);
+                const tableRows = [];
+                
+                // Header row
+                tableRows.push(
+                    new TableRow({
+                        children: Array(cols).fill(null).flatMap(() => [
+                            new TableCell({
+                                children: [new Paragraph({ text: "Pos", alignment: AlignmentType.CENTER })],
+                                width: { size: 12, type: WidthType.PERCENTAGE }
+                            }),
+                            new TableCell({
+                                children: [new Paragraph({ text: "Res", alignment: AlignmentType.CENTER })],
+                                width: { size: 13, type: WidthType.PERCENTAGE }
+                            })
+                        ])
+                    })
+                );
+                
+                // Data rows
+                for (let row = 0; row < rowCount; row++) {
+                    const cells = [];
+                    for (let col = 0; col < cols; col++) {
+                        const index = row + col * rowCount;
+                        if (index < sequence.length) {
+                            cells.push(
+                                new TableCell({
+                                    children: [new Paragraph({ text: String(index + 1), alignment: AlignmentType.CENTER })],
+                                }),
+                                new TableCell({
+                                    children: [new Paragraph({ text: sequence[index], alignment: AlignmentType.CENTER })],
+                                })
+                            );
+                        } else {
+                            cells.push(
+                                new TableCell({ children: [new Paragraph({ text: "" })] }),
+                                new TableCell({ children: [new Paragraph({ text: "" })] })
+                            );
+                        }
+                    }
+                    tableRows.push(new TableRow({ children: cells }));
+                }
+                
+                doc = new Document({
+                    sections: [{
+                        properties: {},
+                        children: [
+                            new Paragraph({
+                                text: `Protein Sequence (${sequence.length} Residues)`,
+                                heading: HeadingLevel.HEADING_1,
+                                alignment: AlignmentType.CENTER
+                            }),
+                            new Paragraph({ text: "" }),
+                            new Table({
+                                rows: tableRows,
+                                width: { size: 100, type: WidthType.PERCENTAGE }
+                            })
+                        ]
+                    }]
+                });
+            } else {
+                // Create text-based formats
+                const formattedText = formatSequence(format, sequence);
+                const lines = formattedText.split('\n');
+                
+                const paragraphs = [
+                    new Paragraph({
+                        text: `Protein Sequence (${sequence.length} Residues)`,
+                        heading: HeadingLevel.HEADING_1,
+                        alignment: AlignmentType.CENTER
+                    }),
+                    new Paragraph({ text: "" })
+                ];
+                
+                lines.forEach(line => {
+                    if (line.trim()) {
+                        paragraphs.push(
+                            new Paragraph({
+                                children: [
+                                    new TextRun({
+                                        text: line,
+                                        font: format === 'fasta' || format === 'continuous' || format === 'grid' ? "Courier New" : "Calibri",
+                                        size: format === 'grid' ? 18 : 20
+                                    })
+                                ]
+                            })
+                        );
+                    }
+                });
+                
+                doc = new Document({
+                    sections: [{
+                        properties: {},
+                        children: paragraphs
+                    }]
+                });
+            }
+            
+            // Generate and download the document
+            const blob = await Packer.toBlob(doc);
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `protein_sequence_${sequence.length}res_${format}.docx`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize with example sequence
+        document.getElementById('proteinSequence').value = "MLKNDQLDQWDRDNFFHPSTHLAQHARGESANRVIKTASGVFIEDRDGTKLLDAFAGLACVNVGYGRQEIAEAIADQARELAYYHSFAGHGTEASITLAKMILDRAPKNMSKVYFGLGGSDANETNVKLIWYYNNIILGRPEKKKIISRWRGGHHGSGLVTGSLTGLELLHKKFDLPVEQVIHTEAPYYFRREDLNQTEEQFVAHCVAELEALIEREEGADTIAAFIGEPIILGAGGIVPPPAGYWEAIQTVLNKHDILLVVADEVVTFGRLGTMFGSDHYGLEPDIITIAGLTSAYAPLSGSIVSDKVWKVLEQGTDENNGPIGHGWTYSAHPIGAAAGVANLKLLDELNLVSNAGEEVGAYLNATMAAEALSQHANVGDVRGEGLLCAVEFVKDRDSSRTFFDAADKIGPQISAKLLEQDKIIAPAMDQGDILGFAPPFCLTRAEADQVVEGTLRAVKAVLG";
+        validateSequence();
+    </script>
+</body>
+</html>

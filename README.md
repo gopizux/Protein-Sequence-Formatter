@@ -44,6 +44,7 @@ Fonts/sizes: adjust TextRun({ font, size })
 Generate button disabled → ensure at least one A–Z letter is present
 “Non-amino acid characters removed” → cleaner stripped invalid chars/whitespace
 CDN blocked/offline → download docx.min.js locally and update the script tag
+
 📄 <b>License</b>
 MIT — see LICENSE.
 

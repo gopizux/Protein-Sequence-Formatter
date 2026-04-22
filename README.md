@@ -1,57 +1,43 @@
-<h1 align="center">Protein Sequence Formatter</h1> <h3 align="center">Format • Preview • Export DOCX — all client‑side</h3><p align="center"> <a href="./LICENSE"> <img src="https://img.shields.io/badge/License-MIT-yellow.svg"> </a> <a href="https://cdnjs.com/libraries/docx"> <img src="https://img.shields.io/badge/docx-7.8.0-5C6BC0?logo=microsoftword&logoColor=white"> </a> <img src="https://img.shields.io/badge/Built%20with-Vanilla%20JS-F7DF1E?logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/Status-Stable-brightgreen"> </p>
+# Protein Sequence Annotator
 
- <b>Overview</b>
+A powerful web-based tool for analyzing, visualizing, and annotating protein amino acid sequences with intelligent formatting, color-coding, and export capabilities.
 
-Paste a protein sequence, choose a layout, preview instantly, and generate a compact DOCX file. Runs entirely in your browser—no backend, no build step.
+Protein sequences in FASTA format are typically presented as continuous strings without explicit positional indexing, making residue identification and mutation design time-consuming. Protein Sequence Annotator assigns numerical indices to each amino acid, enabling rapid navigation and precise residue selection.
 
- <b>Features</b>
+## Features
 
-Input validation with auto-clean (keeps A–Z; strips others; uppercases)
-Live residue count and real-time preview
-One-click DOCX export via docx
-Responsive, clean UI
+- **Multiple Output Formats**: Continuous, FASTA, Compact Grid (20/row), and Table view
+- **Color-Coded Amino Acids**: Nonpolar (orange), Polar (blue), Acidic (red), Basic (green)
+- **Intelligent Numbering**: Dynamic alignment for any sequence length (1 to 10,000+ residues)
+- **One-Click Export**: Copy to clipboard or export to DOCX
+- **No Installation Required**: Runs entirely in your browser
 
- <b>Supported Formats</b>
+## Getting Started
 
-Continuous — 10 residues/line with positions
-Compact Grid — 20 residues per row, spaced
-FASTA-style — 60 chars/line with auto header
-Multi-column Table — 4 columns of Pos/Res
+1. Open `index.html` in any modern web browser
+2. Paste or type your protein sequence
+3. Select an output format
+4. Copy or export your formatted sequence
 
- <b>Quick Start</b>
+## Color-Coding System
 
-Download/clone this repo
-Open index.html in a modern browser
-Paste sequence → select format → click “Generate DOCX File”
+| Color | Category | Amino Acids |
+|-------|----------|-------------|
+| Orange | Nonpolar | A, V, L, I, M, F, W, P, G |
+| Blue | Polar | S, T, N, Q, Y, C |
+| Red | Acidic | D, E |
+| Green | Basic | K, R, H |
 
- <b>Tech Stack</b>
+## Supported Formats
 
-HTML CSS JavaScript docx@7.8.0
+- **Continuous**: Single line, uppercase
+- **FASTA**: Standard bioinformatics format with header
+- **Compact Grid**: 20 amino acids per row with position numbering
+- **Table**: Detailed position-by-position breakdown
 
- <b>Customization</b>
+## Browser Compatibility
 
-Lines/rows: edit chunk sizes in formatSequence() (10/20/60)
-Table columns: change const cols = 4
-Filename: tweak link.download in generateDocx()
-Fonts/sizes: adjust TextRun({ font, size })
+Works on Chrome, Firefox, Safari, Edge, and all modern browsers. No external dependencies required.
 
- <b>Privacy</b>
-
-100% client-side; data never leaves your browser.
-
- <b>Troubleshooting</b>
-
-Generate button disabled → ensure at least one A–Z letter is present
-“Non-amino acid characters removed” → cleaner stripped invalid chars/whitespace
-CDN blocked/offline → download docx.min.js locally and update the script tag
-
- <b>License</b>
-MIT — see LICENSE.
-<b>Acknowledgements</b>
-
-DOCX generation powered by the excellent <a href="https://github.com/dolanmiu/docx">docx</a> library.
-
-##  Access Here - https://protein-sequence.netlify.app
-
-<b>Preview</b>
-<img width="663" height="950" alt="brave_screenshot" src="https://github.com/user-attachments/assets/03c99045-5df2-4ec1-bdd3-fdc0a9b1634b" />
+---
+*Perfect for researchers, students, educators, and bioinformaticians!*

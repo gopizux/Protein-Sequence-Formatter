@@ -1,6 +1,4 @@
-# Protein Sequence Annotator
-
-A powerful web-based tool for analyzing, visualizing, and annotating protein amino acid sequences with intelligent formatting, color-coding, and export capabilities.
+# AminoSeqIndex
 
 Protein sequences in FASTA format are typically presented as continuous strings without explicit positional indexing, making residue identification and mutation design time-consuming. Protein Sequence Annotator assigns numerical indices to each amino acid, enabling rapid navigation and precise residue selection.
 

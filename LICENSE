@@ -1,21 +1,54 @@
-MIT License
+AminoSeqIndex - Protein Sequence Annotator License
 
-Copyright (c) 2025 gopizux
+Copyright (c) 2026 Gopi Malagasi. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## Permitted Uses
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This repository and its contents are provided for educational, research, and personal use purposes only.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+You ARE allowed to:
+
+1. **Access and Use**: Use this tool/repository for learning, academic research, and personal non-commercial applications
+2. **Reference**: Reference the material in academic work with proper attribution to Gopi Malagasi
+3. **Personal Use**: Use for personal, non-commercial bioinformatics projects and learning
+
+## Prohibited Uses
+
+You are NOT allowed to:
+
+1. **Redistribute**: Reuse, reproduce, or redistribute any code, content, or visual materials contained in this repository
+2. **Copy Content**: Copy or republish written content, documentation, tutorials, or annotations in whole or in part
+3. **Commercial Use**: Use this tool or its components for commercial purposes, including but not limited to:
+   - Integration into commercial products or services
+   - Use in for-profit research or consulting
+   - Resale or sublicensing
+4. **Modify and Redistribute**: Modify, create derivative works, or redistribute this repository as your own work
+5. **Platform Upload**: Upload or host this content (code, tool context, or documentation) on other platforms, repositories, or websites without explicit permission
+
+## Restrictions
+
+- No part of this software may be copied, modified, distributed, or used to create derivative works without prior written permission
+- Uploading this content to other platforms (GitHub, GitLab, or any code hosting service) is strictly prohibited
+- Reverse engineering or decompilation of any compiled components is not permitted
+
+## Permissions and Contact
+
+To request permission for uses not covered above (including collaboration, commercial licensing, or educational institution use), please contact:
+
+- **Primary Contact**: gopizux@gmail.com
+- **Secondary Contact**: vrkrishna70@gmail.com
+
+## Disclaimer
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+## Attribution
+
+When referencing this work, please cite:
+AminoSeqIndex - Protein Sequence Annotator
+Copyright (c) 2026 Gopi Malagasi
+Contact: gopizux@gmail.com
+
+---
+
+For licensing inquiries, please reach out via the contact information above.
